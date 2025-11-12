@@ -1,20 +1,30 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Button } from '@/components/ui/button'
-import { useAuthActions } from "@convex-dev/auth/react";
-import { useQuery } from 'convex/react';
-import { api } from 'convex/_generated/api';
+import { SignInButton, UserButton } from "@clerk/clerk-react";
+import { Authenticated, Unauthenticated, AuthLoading, useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
-  const { signIn, signOut } = useAuthActions();
-  const isAuthenticated = useQuery(api.auth.isAuthenticated)
-  console.log(isAuthenticated)
   return (
-    <div className="p-4">
-      {!isAuthenticated ? <Button onClick={() => void signIn("google")}>Sign in with Google</Button> : <Button onClick={() => void signOut()}>Signout</Button>}
-    </div>
+    <main>
+      <Unauthenticated>
+        <SignInButton />
+      </Unauthenticated>
+      <Authenticated>
+        <UserButton />
+        <Content />
+      </Authenticated>
+      <AuthLoading>
+        <p>Still loading</p>
+      </AuthLoading>
+    </main>
   )
+}
+
+function Content() {
+  const messages = useQuery(api.auth.isAuthenticated);
+  return <div>Authenticated content: {messages}</div>;
 }
