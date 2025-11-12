@@ -1,9 +1,10 @@
 import { mutation, query } from './_generated/server'
 import { v } from 'convex/values'
+import { protectedQuery } from './lib/protectedContext'
 
-export const list = query({
+export const list = protectedQuery({
   args: {},
-  handler: async (ctx) => {
+  handler: async (ctx, ...args: [{}]) => {
     return await ctx.db
       .query('todos')
       .withIndex('by_creation_time')
@@ -15,6 +16,9 @@ export const list = query({
 export const add = mutation({
   args: { text: v.string() },
   handler: async (ctx, args) => {
+    const isAuthenitcated = ctx.auth.getUserIdentity()
+
+
     return await ctx.db.insert('todos', {
       text: args.text,
       completed: false,

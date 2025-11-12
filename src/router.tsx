@@ -28,7 +28,7 @@ export const getRouter = () => {
 
   if (!router.isServer) {
     Sentry.init({
-      dsn: import.meta.env.VITE_SENTRY_DSN,
+      dsn: "https://b6f8acf892eab04f9461cc246e5f71d5@o4510346839719936.ingest.de.sentry.io/4510346849747024",
       integrations: [],
     })
   }

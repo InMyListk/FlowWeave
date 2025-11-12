@@ -8,12 +8,16 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
+import type * as http from "../http.js";
+import type * as lib_protectedContext from "../lib/protectedContext.js";
+import type * as todos from "../todos.js";
+
 import type {
   ApiFromModules,
   FilterApi,
   FunctionReference,
-} from 'convex/server'
-import type * as todos from '../todos.js'
+} from "convex/server";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -24,13 +28,20 @@ import type * as todos from '../todos.js'
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  todos: typeof todos
-}>
+  auth: typeof auth;
+  http: typeof http;
+  "lib/protectedContext": typeof lib_protectedContext;
+  todos: typeof todos;
+}>;
+declare const fullApiWithMounts: typeof fullApi;
+
 export declare const api: FilterApi<
-  typeof fullApi,
-  FunctionReference<any, 'public'>
->
+  typeof fullApiWithMounts,
+  FunctionReference<any, "public">
+>;
 export declare const internal: FilterApi<
-  typeof fullApi,
-  FunctionReference<any, 'internal'>
->
+  typeof fullApiWithMounts,
+  FunctionReference<any, "internal">
+>;
+
+export declare const components: {};

@@ -9,6 +9,7 @@ import { Id } from '../../../convex/_generated/dataModel'
 export const Route = createFileRoute('/demo/convex')({
   ssr: false,
   component: ConvexTodos,
+  errorComponent: () => <div>Not authenticated, Please authenticate!</div>
 })
 
 function ConvexTodos() {
@@ -120,30 +121,27 @@ function ConvexTodos() {
               {todos.map((todo, index) => (
                 <div
                   key={todo._id}
-                  className={`p-4 flex items-center gap-4 hover:bg-green-50/50 transition-colors ${
-                    todo.completed ? 'opacity-75' : ''
-                  }`}
+                  className={`p-4 flex items-center gap-4 hover:bg-green-50/50 transition-colors ${todo.completed ? 'opacity-75' : ''
+                    }`}
                   style={{
                     animationDelay: `${index * 50}ms`,
                   }}
                 >
                   <button
                     onClick={() => handleToggleTodo(todo._id)}
-                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
-                      todo.completed
+                    className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${todo.completed
                         ? 'bg-green-500 border-green-500 text-white'
                         : 'border-green-300 hover:border-green-400 text-transparent hover:text-green-400'
-                    }`}
+                      }`}
                   >
                     <Check size={14} />
                   </button>
 
                   <span
-                    className={`flex-1 text-lg transition-all duration-200 ${
-                      todo.completed
+                    className={`flex-1 text-lg transition-all duration-200 ${todo.completed
                         ? 'line-through text-gray-500'
                         : 'text-gray-800'
-                    }`}
+                      }`}
                   >
                     {todo.text}
                   </span>
